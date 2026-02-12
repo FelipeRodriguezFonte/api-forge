@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Forge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-grid"></div>
+
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand__badge">AF</span>
+        <div>
+          <div class="brand__title">API Forge</div>
+          <div class="brand__subtitle">Cliente HTTP sin permisos admin</div>
+        </div>
+      </div>
+      <div class="topbar__controls">
+        <select id="env-select" class="select"></select>
+        <button id="btn-new-env" class="btn btn-ghost">Nuevo entorno</button>
+        <button id="btn-export" class="btn btn-ghost">Exportar</button>
+        <button id="btn-import" class="btn btn-ghost">Importar</button>
+        <button id="btn-settings" class="btn btn-primary">Ajustes</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <div class="panel">
+          <div class="panel__header">
+            <div>
+              <h2>Requests</h2>
+              <p>Organiza y reusa tus llamadas.</p>
+            </div>
+            <button id="btn-new-req" class="btn btn-small">Nueva</button>
+          </div>
+          <input id="request-filter" class="input" placeholder="Buscar request (nombre o URL)" />
+          <div id="request-list" class="request-list"></div>
+        </div>
+
+        <div class="panel panel--tight">
+          <div class="panel__header">
+            <div>
+              <h2>Variables</h2>
+              <p>Por entorno activo.</p>
+            </div>
+            <button id="btn-add-var" class="btn btn-small">Agregar</button>
+          </div>
+          <div class="env-meta">
+            <label class="label" for="env-name">Nombre del entorno</label>
+            <input id="env-name" class="input" placeholder="Ej: Staging" />
+            <div class="env-actions">
+              <button id="btn-toggle-vars" class="btn btn-ghost btn-small" type="button">Expandir variables</button>
+              <button id="btn-duplicate-env" class="btn btn-ghost btn-small" type="button">Duplicar entorno</button>
+              <button id="btn-export-env" class="btn btn-ghost btn-small" type="button">Exportar entorno</button>
+              <button id="btn-import-env" class="btn btn-ghost btn-small" type="button">Importar entorno</button>
+              <button id="btn-delete-env" class="btn btn-ghost btn-small" type="button">Eliminar entorno</button>
+            </div>
+          </div>
+          <div id="vars-list" class="vars-list"></div>
+          <div class="globals">
+            <div class="globals__header">
+              <h3>Variables globales</h3>
+              <button id="btn-add-global-var" class="btn btn-small" type="button">Agregar</button>
+            </div>
+            <div id="global-vars-list" class="vars-list"></div>
+          </div>
+        </div>
+      </aside>
+
+      <section class="main">
+        <div class="panel request-panel">
+          <div class="request-meta">
+            <div class="request-meta__row">
+              <label class="label" for="request-select">Request</label>
+              <select id="request-select" class="select"></select>
+            </div>
+            <label class="label" for="request-name">Nombre</label>
+            <input id="request-name" class="input" placeholder="Ej: Crear usuario" />
+          </div>
+          <div class="request-bar">
+            <select id="method" class="select select-method"></select>
+            <input id="url" class="input url-input" placeholder="https://api.midominio.com/v1" />
+            <button id="btn-send" class="btn btn-primary btn-send">Enviar</button>
+            <button id="btn-export-curl" class="btn btn-ghost btn-curl" type="button">cURL</button>
+            <button id="btn-import-curl" class="btn btn-ghost btn-curl" type="button">Import cURL</button>
+          </div>
+
+          <div class="tabs">
+            <button class="tab active" data-tab="headers">Headers</button>
+            <button class="tab" data-tab="body">Body</button>
+            <button class="tab" data-tab="auth">Auth</button>
+            <button class="tab" data-tab="query">Query</button>
+            <button class="tab" data-tab="extract">Vars</button>
+          </div>
+
+          <div class="tab-content" id="tab-headers"></div>
+          <div class="tab-content hidden" id="tab-body"></div>
+          <div class="tab-content hidden" id="tab-auth"></div>
+          <div class="tab-content hidden" id="tab-query"></div>
+          <div class="tab-content hidden" id="tab-extract"></div>
+        </div>
+
+        <div class="panel response-panel">
+          <div class="panel__header">
+            <div>
+              <h2>Respuesta</h2>
+              <p id="response-meta">Sin peticiones todavia.</p>
+            </div>
+            <div class="pill" id="status-pill">--</div>
+          </div>
+          <div class="response-body">
+            <pre id="response-headers" class="code-block"></pre>
+            <pre id="response-body" class="code-block"></pre>
+          </div>
+          <div class="history">
+            <div class="history__header">
+              <h3>Historial</h3>
+              <button id="btn-clear-history" class="btn btn-ghost btn-small" type="button">Limpiar</button>
+            </div>
+            <div id="history-list" class="history-list"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="settings-modal" class="modal hidden">
+      <div class="modal__content">
+        <div class="modal__header">
+          <h2>Ajustes</h2>
+          <button id="btn-close-settings" class="btn btn-ghost" type="button">Cerrar</button>
+        </div>
+        <div class="modal__body">
+          <label class="label">Proxy (opcional)</label>
+          <input id="proxy" class="input" placeholder="http://usuario:pass@proxy:8080" />
+          <div class="toggle">
+            <input id="toggle-insecure" type="checkbox" />
+            <label for="toggle-insecure">Permitir certificados inseguros</label>
+          </div>
+          <p class="label">Requiere reiniciar la app para aplicar certificados inseguros.</p>
+          <label class="label">Timeout (ms)</label>
+          <input id="timeout" class="input" type="number" min="1000" step="500" />
+          <label class="label">Limite de respuesta (bytes)</label>
+          <input id="max-size" class="input" type="number" min="100000" step="100000" />
+        </div>
+        <div class="modal__footer">
+          <button id="btn-save-settings" class="btn btn-primary" type="button">Guardar</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="env-modal" class="modal hidden">
+      <div class="modal__content modal__content--wide">
+        <div class="modal__header">
+          <h2 id="env-modal-title">Exportar entornos</h2>
+          <button id="btn-close-env-modal" class="btn btn-ghost" type="button">Cerrar</button>
+        </div>
+        <div id="env-modal-body" class="modal__body"></div>
+        <div class="modal__footer">
+          <button id="btn-env-modal-primary" class="btn btn-primary" type="button">Continuar</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="curl-modal" class="modal hidden">
+      <div class="modal__content modal__content--wide">
+        <div class="modal__header">
+          <h2>Importar cURL</h2>
+          <button id="btn-close-curl-modal" class="btn btn-ghost" type="button">Cerrar</button>
+        </div>
+        <div class="modal__body">
+          <label class="label">Pega el comando cURL</label>
+          <textarea id="curl-input" class="input input-textarea" placeholder="curl -X POST https://api.ejemplo.com -H &quot;Authorization: Bearer ...&quot; -d '{&quot;a&quot;:1}'"></textarea>
+          <label class="label">Nombre de la request</label>
+          <input id="curl-request-name" class="input" placeholder="Ej: Login API" />
+          <label class="label">Modo de importación</label>
+          <select id="curl-import-mode" class="select">
+            <option value="new">Crear nueva request</option>
+            <option value="overwrite">Sobrescribir request actual</option>
+          </select>
+        </div>
+        <div class="modal__footer">
+          <button id="btn-import-curl-confirm" class="btn btn-primary" type="button">Importar</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="renderer.js"></script>
+  </body>
+</html>

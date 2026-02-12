@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cURL · API Forge</title>
+    <link rel="stylesheet" href="history.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="title-group">
+        <div class="badge">AF</div>
+        <div>
+          <div class="title">cURL</div>
+          <div class="subtitle" id="curl-subtitle">Request</div>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button id="btn-save-curl" class="btn btn-ghost" type="button">Guardar</button>
+        <button id="btn-copy-curl" class="btn btn-primary" type="button">Copiar</button>
+      </div>
+    </header>
+
+    <main class="content content-single">
+      <section class="panel">
+        <div class="panel__header">
+          <div>
+            <h2>Comando cURL</h2>
+            <p id="curl-meta">--</p>
+          </div>
+        </div>
+        <pre id="curl-text" class="code-block"></pre>
+      </section>
+    </main>
+
+    <script src="curl.js"></script>
+  </body>
+</html>

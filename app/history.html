@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detalle de Request · API Forge</title>
+    <link rel="stylesheet" href="history.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="title-group">
+        <div class="badge">AF</div>
+        <div>
+          <div class="title" id="history-title">Detalle</div>
+          <div class="subtitle" id="history-subtitle">Historial de ejecución</div>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button id="btn-copy-request" class="btn btn-ghost" type="button">Copiar request</button>
+        <button id="btn-copy-response" class="btn btn-primary" type="button">Copiar respuesta</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="panel">
+        <div class="panel__header">
+          <div>
+            <h2>Request</h2>
+            <p id="request-meta">--</p>
+          </div>
+        </div>
+        <pre id="request-text" class="code-block"></pre>
+      </section>
+
+      <section class="panel">
+        <div class="panel__header">
+          <div>
+            <h2>Respuesta</h2>
+            <p id="response-meta">--</p>
+          </div>
+          <div id="response-pill" class="pill">--</div>
+        </div>
+        <pre id="response-text" class="code-block"></pre>
+        <div id="vars-captured" class="vars-captured hidden"></div>
+      </section>
+    </main>
+
+    <script src="history.js"></script>
+  </body>
+</html>
